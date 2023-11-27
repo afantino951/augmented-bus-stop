@@ -17,7 +17,6 @@ public class ScaleWithDistance : MonoBehaviour
 
 
     private float distance;    
-    private float scaleFactor = 0.01f;
 
     // Start is called before the first frame update
     void Start()
@@ -32,13 +31,11 @@ public class ScaleWithDistance : MonoBehaviour
         if (_objectActiveState.Active) 
         {
             distance = getDistance(_sourceGameObject, _cameraRigRef);
-            Debug.Log(distance);
 
             if (distance < 1.0f) 
             {
-                _sourceGameObject.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+                _sourceGameObject.transform.localScale = new Vector3(0.5f, 0.25f, 0.5f);
             }
-            // _sourceGameObject.transform.localScale *= scaleFactor;
             
         }
     }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Oculus.Interaction.Locomotion;
 using UnityEngine;
 
 namespace Oculus.Interaction.Samples
@@ -11,7 +12,8 @@ namespace Oculus.Interaction.Samples
         [SerializeField] private ActiveStateSelector thumbup;
         [SerializeField] private ActiveStateSelector thumbdown;
         [SerializeField] private GameObject _sourceGameObject;
-
+        [SerializeField] private GameObject _illusionGameObject;
+        
         private Vector3 scale_inc = new Vector3(0.01f,0.01f,0.01f);
 
 	private float distance;
@@ -34,7 +36,9 @@ namespace Oculus.Interaction.Samples
 
         private void Sizeup()
         {
-            _sourceGameObject.transform.position = _sourceGameObject.transform.position - _sourceGameObject.transform.position;
+            // _sourceGameObject.transform.position = _sourceGameObject.transform.position - _sourceGameObject.transform.position;
+            _sourceGameObject.transform.position = new Vector3(0,0,0); //  _sourceGameObject.transform.position - _sourceGameObject.transform.position;
+            _illusionGameObject.SetActive(true);
             Debug.Log("thumb up detected");
         }
 
