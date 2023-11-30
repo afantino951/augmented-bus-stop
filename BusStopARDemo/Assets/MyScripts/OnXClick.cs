@@ -7,7 +7,7 @@ public class OnXClick : MonoBehaviour
     [SerializeField]
     private GameObject _sourceGameObject;
      [SerializeField]
-    private GameObject _illusionObject;   
+    private GameObject _illusionObject;
     
     private Vector3 initialPos = new Vector3(-2.0f, 2.5f, 3.0f);
 
@@ -20,17 +20,22 @@ public class OnXClick : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //FlyBack();
+    }
+
+    private void FlyBack()
+    {
+        _sourceGameObject.transform.position = initialPos;
+        _sourceGameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
     public void returnToOriginalPosition() 
     {
-        if (_sourceGameObject.activeInHierarchy == true)
-        {
+        //if (_sourceGameObject.activeInHierarchy == true)
+        //{
             // _sourceGameObject.transform.position = initialPos;
-            _sourceGameObject.SetActive(false);
-            _illusionObject.SetActive(true);
-        }
-
+            //_sourceGameObject.SetActive(false);
+            //_illusionObject.SetActive(true);
+        //}
     }
 }

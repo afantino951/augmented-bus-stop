@@ -8,49 +8,57 @@ namespace Oculus.Interaction.Samples
     public class ThumbReturn : MonoBehaviour
     {
         private bool isThumbup = false;
-        private bool isThumbdown = false;
         [SerializeField] private ActiveStateSelector thumbup;
-        [SerializeField] private ActiveStateSelector thumbdown;
         [SerializeField] private GameObject _sourceGameObject;
         [SerializeField] private GameObject _illusionGameObject;
-        
-        private Vector3 scale_inc = new Vector3(0.01f,0.01f,0.01f);
+        [SerializeField] private Transform fingertip;
 
-	private float distance;
+        private float distance;
+        private float touch_threshold = 0.1f;
+        private float iniTime;
+        
+        private bool isHit = false;
+        private bool in_time = true;
+        private Vector3 initialPos = new Vector3(-2.0f, 2.5f, 3.0f);
 
         // Start is called before the first frame update
         void Start()
         {
             thumbup.WhenSelected += () => {isThumbup = true;};
             thumbup.WhenUnselected += () => {isThumbup = false;};
-            thumbdown.WhenSelected += () => {isThumbdown = true;};
-            thumbdown.WhenUnselected += () => {isThumbdown = false;};
+            _sourceGameObject.transform.position = initialPos;
+            _sourceGameObject.SetActive(true);
         }
 
         // Update is called once per frame
         void Update()
         {
-            if(isThumbup) Sizeup();
-            if(isThumbdown) Sizedown();
-        }
-
-        private void Sizeup()
-        {
-            // _sourceGameObject.transform.position = _sourceGameObject.transform.position - _sourceGameObject.transform.position;
-            _sourceGameObject.transform.position = new Vector3(0,0,0); //  _sourceGameObject.transform.position - _sourceGameObject.transform.position;
-            _illusionGameObject.SetActive(true);
-            Debug.Log("thumb up detected");
-        }
-
-        private void Sizedown()
-        {
-            if (_sourceGameObject.transform.localScale.y > 0)
-            {
-                _sourceGameObject.transform.localScale -= scale_inc;
-                Debug.Log("thumb down detected");
-            }
-            Debug.Log("thumb down is detected!");
+            distance = DistanceCalculator(_sourceGameObject, fingertip);
+            isHit = (distance < touch_threshold);
             
+            //if(isHit) Fly();
+            if(isHit && in_time) {
+                iniTime = Time.time;
+                in_time = false;
+            }
+            else if(!isHit) in_time = true;
+
+            if(Time.time - iniTime >= 2 && isHit) Fly();
+
+            if(isThumbup) Fly();
+        }
+
+        private void Fly()
+        {
+            _sourceGameObject.transform.position = initialPos;
+            _sourceGameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+
+        private float DistanceCalculator(GameObject target, Transform fingertip)
+        {
+            float dis = 0;
+            dis = Vector3.Distance(target.transform.position, fingertip.position);
+            return dis;
         }
     }
 }
