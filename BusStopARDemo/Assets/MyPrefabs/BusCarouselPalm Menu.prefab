@@ -1171,7 +1171,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2630495519803187311}
@@ -1224,7 +1224,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8635334791877422359}
-        m_TargetAssemblyTypeName: Oculus.Interaction.Samples.PalmMenuExample, Assembly-CSharp
+        m_TargetAssemblyTypeName: Oculus.Interaction.Samples.PalmMenu.PalmMenuExample,
+          Oculus.Interaction.OVR.Samples
         m_MethodName: ToggleMenu
         m_Mode: 1
         m_Arguments:
@@ -1336,15 +1337,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8942874280679580158}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0.03}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.89}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5739746114037253726}
   - {fileID: 8480445076527629946}
   m_Father: {fileID: 2630495519803187311}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7654133852962997063
 MonoBehaviour:
   m_ObjectHideFlags: 0
