@@ -63,32 +63,33 @@ public class ScaleWithDistance : MonoBehaviour
     protected virtual void Update()
     {
         bool isActive = ActiveState.Active;
-        // if (_lastActiveValue != isActive)
-        // {
-        //     SetMaterialColor(isActive ? _activeColor : _normalColor);
-        //     _lastActiveValue = isActive;
-        // }
-        if (!wasActive && isActive){
-            // distance = getDistance(_sourceGameObject, _cameraRigRef);
-            
-            // if (!zeroed)
-            // {
-                _sourceGameObject.transform.localScale = Vector3.Lerp(
-                    originalScale, Vector3.zero, 1.0f
-                );
-                zeroed = true;
-            }
-            else 
-            {
-                _sourceGameObject.transform.localScale = Vector3.Lerp(
-                    Vector3.zero, originalScale, 1.0f
-                );
-                zeroed = false;
-            }
 
-        // }
+        if (!wasActive && isActive){
+            _sourceGameObject.transform.localScale = Vector3.Lerp(
+                originalScale, Vector3.zero, 1.0f
+            );
+            zeroed = true;
+        }
+        else 
+        {
+            _sourceGameObject.transform.localScale = Vector3.Lerp(
+                Vector3.zero, originalScale, 1.0f
+            );
+            zeroed = false;
+        }
 
         wasActive = isActive;
+
+        distance = getDistance(_sourceGameObject, _cameraRigRef);
+
+        if (distance < _distanceThreshold) 
+        {
+            _sourceGameObject.transform.localScale = new Vector3(0.2f, 0.5f, 0.2f);
+        }
+        else
+        {
+            _sourceGameObject.transform.localScale = originalScale;
+        }
     }
 
     private static float getDistance(GameObject obj1, GameObject obj2) 

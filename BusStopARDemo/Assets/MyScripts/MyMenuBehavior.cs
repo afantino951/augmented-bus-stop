@@ -20,6 +20,7 @@
 
 using System;
 using Oculus.Interaction.Locomotion;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Oculus.Interaction.Samples.PalmMenu
@@ -43,6 +44,14 @@ namespace Oculus.Interaction.Samples.PalmMenu
 
         [SerializeField]
         private RectTransform[] _buttons;
+
+        [SerializeField]
+        private RectTransform _emptyButton;
+
+        [SerializeField, Interface(typeof(IActiveState))]
+        private UnityEngine.Object _activeState;
+
+        private IActiveState ActiveState { get; set; }
 
         [SerializeField]
         private RectTransform[] _paginationDots;
@@ -71,8 +80,12 @@ namespace Oculus.Interaction.Samples.PalmMenu
         private bool _rightNavSelected = false;
         private bool _rightNavPrevSelected = false;
 
+        private bool wasActive = false;
+        private bool isHidden = true;
+
         private void Start()
         {
+            ActiveState = _activeState as IActiveState;
             _currentSelectedButtonIdx = CalculateNearestButtonIdx();
             _selectionIndicatorDot.position = _paginationDots[_currentSelectedButtonIdx].position;
 
@@ -93,6 +106,36 @@ namespace Oculus.Interaction.Samples.PalmMenu
             {
                 LerpToButton();
             }
+
+            bool isActive = ActiveState.Active;
+            if (!wasActive && isActive)
+            {
+                if (isHidden)
+                {
+                    for (int idx = 0; idx < _buttons.Length; idx++)
+                    {
+                        _buttons[idx].GameObject().SetActive(true);
+                        _paginationDots[idx].GameObject().SetActive(true);
+                    }
+                    _selectionIndicatorDot.GameObject().SetActive(true);
+                    _emptyButton.GameObject().SetActive(false);
+                    isHidden = false;
+                }
+                else
+                {
+                    for (int idx = 0; idx < _buttons.Length; idx++)
+                    {
+                        _buttons[idx].GameObject().SetActive(false);
+                        _paginationDots[idx].GameObject().SetActive(false);
+                    }
+                    _selectionIndicatorDot.GameObject().SetActive(false);
+                    _emptyButton.GameObject().SetActive(true);
+                    isHidden = true;
+                }
+
+            }
+
+            wasActive = isActive;
 
             _leftNavPrevSelected = _leftNavSelected;
             _rightNavPrevSelected = _rightNavSelected;
