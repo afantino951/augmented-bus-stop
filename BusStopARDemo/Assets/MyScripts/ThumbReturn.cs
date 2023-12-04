@@ -11,9 +11,12 @@ namespace Oculus.Interaction.Samples
         [SerializeField] private ActiveStateSelector thumbup;
         [SerializeField] private GameObject _sourceGameObject;
         [SerializeField] private GameObject _illusionGameObject;
-        [SerializeField] private Transform fingertip;
+        [SerializeField] private Transform _rightFingertip;
+        [SerializeField] private Transform _leftFingertip;
 
-        private float distance;
+        private float distanceRight;
+        private float distanceLeft;
+
         private float touch_threshold = 0.1f;
         private float iniTime;
         
@@ -33,8 +36,9 @@ namespace Oculus.Interaction.Samples
         // Update is called once per frame
         void Update()
         {
-            distance = DistanceCalculator(_sourceGameObject, fingertip);
-            isHit = (distance < touch_threshold);
+            distanceLeft = DistanceCalculator(_sourceGameObject, _leftFingertip);
+            distanceRight = DistanceCalculator(_sourceGameObject, _rightFingertip);
+            isHit = ((distanceLeft < touch_threshold) || (distanceRight < touch_threshold));
             
             //if(isHit) Fly();
             if(isHit && in_time) {
@@ -43,9 +47,9 @@ namespace Oculus.Interaction.Samples
             }
             else if(!isHit) in_time = true;
 
-            if(Time.time - iniTime >= 2 && isHit) Fly();
+            if(Time.time - iniTime >= 0 && isHit) Fly();
 
-            if(isThumbup) Fly();
+            //if(isThumbup) Fly();
         }
 
         private void Fly()

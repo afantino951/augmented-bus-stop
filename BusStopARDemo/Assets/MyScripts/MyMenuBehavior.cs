@@ -18,6 +18,7 @@
  * limitations under the License.
  */
 
+using System;
 using Oculus.Interaction.Locomotion;
 using UnityEngine;
 
@@ -53,7 +54,7 @@ namespace Oculus.Interaction.Samples.PalmMenu
         private AnimationCurve _paginationButtonScaleCurve;
 
         [SerializeField]
-        private float _defaultButtonDistance = 90f;
+        private float _defaultButtonDistance = 50f;
 
         [SerializeField]
         private AudioSource _paginationSwipeAudio;
@@ -81,11 +82,6 @@ namespace Oculus.Interaction.Samples.PalmMenu
         private void Update()
         {
             var nearestButtonIdx = CalculateNearestButtonIdx();
-            if (_leftNavSelected && !_leftNavPrevSelected)   nearestButtonIdx--;
-            if (_leftNavSelected) Debug.Log("WOW LOOK WE GO LEFT");
-            if (_rightNavSelected && !_rightNavPrevSelected)  nearestButtonIdx++;
-            if (_rightNavSelected) Debug.Log("WOW LOOK WE GO RIGHT");
-
             if (nearestButtonIdx != _currentSelectedButtonIdx)
             {
                 _currentSelectedButtonIdx = nearestButtonIdx;
@@ -93,10 +89,11 @@ namespace Oculus.Interaction.Samples.PalmMenu
                 _selectionIndicatorDot.position = _paginationDots[_currentSelectedButtonIdx].position;
             }
 
-            if (_menuInteractable.State != InteractableState.Select || _leftNavSelected || _rightNavSelected)
+            if (_menuInteractable.State != InteractableState.Select)
             {
                 LerpToButton();
             }
+
             _leftNavPrevSelected = _leftNavSelected;
             _rightNavPrevSelected = _rightNavSelected;
             if (_leftNavSelected) _leftNavSelected = false;
